@@ -1,23 +1,34 @@
 import tkinter as tk
+from tkinter import ttk
 
-def button_clicked():
-    print("Button clicked!")
+def create_progress_bars():
+    for i in range(5):  # Create 5 progress bars as an example
+        progress = ttk.Progressbar(main_frame, orient="horizontal", length=200, mode="determinate")
+        progress.grid(row=i, column=1, pady=5)
+        progress['value'] = (i + 1) * 20  # Example progress value
 
-# Create the main tkinter window
+# Initialize main window
 root = tk.Tk()
-root.title("Text and Button App")
+root.title("Tkinter Interface Example")
 
-# Create a frame to hold the widgets
-frame = tk.Frame(root, padx=20, pady=20)
-frame.pack(expand=True, fill=tk.BOTH)
+# Configure grid layout
+root.columnconfigure(0, weight=1)
+root.columnconfigure(1, weight=1)
+root.rowconfigure(0, weight=1)
 
-# Create a label widget for displaying text on the left side
-text_label = tk.Label(frame, text="Left Text", padx=10, pady=10)
-text_label.pack(side=tk.LEFT)
+# Main frame
+main_frame = tk.Frame(root)
+main_frame.grid(row=0, column=0, columnspan=2, sticky="nsew")
+main_frame.columnconfigure(0, weight=1)
+main_frame.columnconfigure(1, weight=1)
 
-# Create a button widget on the right side
-button = tk.Button(frame, text="Click Me", command=button_clicked, width=10)
-button.pack(side=tk.RIGHT)
+# Left side label
+project_label = tk.Label(main_frame, text="Project Name", font=("Arial", 16))
+project_label.grid(row=0, column=0, padx=20, pady=20, sticky="w")
 
-# Start the main tkinter event loop
+# Right side button
+generate_button = tk.Button(main_frame, text="Generate Progress Bars", command=create_progress_bars)
+generate_button.grid(row=0, column=1, padx=20, pady=20, sticky="e")
+
+# Run the application
 root.mainloop()
