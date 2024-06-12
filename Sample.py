@@ -165,4 +165,4 @@ if __name__ == "__main__":
     app.mainloop()
 
 
-
+First, I would like to clarify that I have only participated in one call, not several, and I still have some unresolved queries. In our discussions, it appears there is some confusion regarding the two different approaches outlined in the Word document.From my understanding, Option Two is the IT solution intended for development, as highlighted in our previous call. Option One, on the other hand, seems to present the current process for Inka and DWS with minor enhancements. However, it remains unclear to me which solution is considered the most user-friendly and straightforward, as both options seem to overlap in their objectives.To move forward effectively, I kindly request a clear outline of what is expected from our side. Specifically, I would appreciate it if you could:Confirm which solution (Option One or Option Two) is being prioritized for development.Provide a detailed description of the final expected outcome.Clarify any additional inputs or actions required from our team.Your prompt response will help us align our efforts and ensure that we are on the same page moving forward.
