@@ -1,4 +1,4 @@
-import tkinter as tk
+ooimport tkinter as tk
 from tkinter import ttk, messagebox
 import os
 import pandas as pd
@@ -166,3 +166,16 @@ if __name__ == "__main__":
 
 
 First, I would like to clarify that I have only participated in one call, not several, and I still have some unresolved queries. In our discussions, it appears there is some confusion regarding the two different approaches outlined in the Word document.From my understanding, Option Two is the IT solution intended for development, as highlighted in our previous call. Option One, on the other hand, seems to present the current process for Inka and DWS with minor enhancements. However, it remains unclear to me which solution is considered the most user-friendly and straightforward, as both options seem to overlap in their objectives.To move forward effectively, I kindly request a clear outline of what is expected from our side. Specifically, I would appreciate it if you could:Confirm which solution (Option One or Option Two) is being prioritized for development.Provide a detailed description of the final expected outcome.Clarify any additional inputs or actions required from our team.Your prompt response will help us align our efforts and ensure that we are on the same page moving forward.
+
+
+
+
+I hope this message finds you well. I am writing to formally resign from my position at [Company Name], effective [last working day, typically two weeks from the date you send the email].
+
+This decision was not easy, and I have greatly enjoyed working at [Company Name]. I appreciate the opportunities for personal and professional development that you and the team have provided me during my time here. I have learned a lot and have enjoyed collaborating with my colleagues.
+
+I will do everything I can to ensure a smooth transition and will be happy to assist in training my replacement or handing off my responsibilities.
+
+Thank you once again for the support and guidance you have given me. I look forward to staying in touch, and I hope our paths cross again in the future.
+
+Best regards,
