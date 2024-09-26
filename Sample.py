@@ -1,4 +1,4 @@
-ooimport tkinter as tk
+jiooimport tkinter as tk
 from tkinter import ttk, messagebox
 import os
 import pandas as pd
@@ -179,3 +179,10 @@ I will do everything I can to ensure a smooth transition and will be happy to as
 Thank you once again for the support and guidance you have given me. I look forward to staying in touch, and I hope our paths cross again in the future.
 
 Best regards,
+
+
+I am writing to formally resign from my position at [Company Name], with a requested early release date of [specific date, 45 days from now].
+
+I appreciate the support and opportunities I have received during my time here. I am committed to ensuring a smooth transition in the coming weeks.
+
+Thank you for your understanding.
