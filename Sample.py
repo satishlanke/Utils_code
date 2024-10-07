@@ -10,21 +10,21 @@ data = {
 }
 df = pd.DataFrame(data)
 
-# Write DataFrame to Excel with pd.ExcelWriter and openpyxl engine
-with pd.ExcelWriter('output_with_lines.xlsx', engine='openpyxl') as writer:
+# Write DataFrame to Excel without header styling
+with pd.ExcelWriter('output_without_header_style.xlsx', engine='openpyxl') as writer:
     df.to_excel(writer, index=False, sheet_name='Sheet1')
     workbook = writer.book
     worksheet = writer.sheets['Sheet1']
 
-    # Define the border style for horizontal lines
+    # Define the border style for horizontal lines (only for data rows)
     thin_border = Border(left=Side(style='thin'),
                          right=Side(style='thin'),
                          top=Side(style='thin'),
                          bottom=Side(style='thin'))
 
-    # Apply the border to each row
+    # Apply the border to each cell in the data rows (excluding the header)
     for row in worksheet.iter_rows(min_row=2, max_row=worksheet.max_row, min_col=1, max_col=worksheet.max_column):
         for cell in row:
             cell.border = thin_border
 
-# The file "output_with_lines.xlsx" is saved with horizontal lines between rows.
+# The file "output_without_header_style.xlsx" is saved without header style but with borders on data rows.
