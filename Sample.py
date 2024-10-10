@@ -1,25 +1,18 @@
 SELECT 
-    t.identifiers,
-    t.asset_correct,
-    t.moody_rating,
-    SUM(t.value) AS total_value
+    t.*,
+    aggregated."Client Earnings",
+    aggregated."Net Earnings"
 FROM 
-    Sample_read t
+    perfora_df_1 t
 JOIN 
     (SELECT 
-         identifiers, 
-         asset_correct, 
-         moody_rating, 
-         SUM(value) AS total_value
+        "Client Name",
+        SUM("Client Earnings") AS "Client Earnings",
+        SUM("Net Earnings") AS "Net Earnings"
      FROM 
-         Sample_read
+        perfora_df_1
      GROUP BY 
-         identifiers, asset_correct, moody_rating
-    ) AS subtotal 
+        "Client Name"
+    ) aggregated
 ON 
-    t.identifiers = subtotal.identifiers 
-    AND t.asset_correct = subtotal.asset_correct
-GROUP BY 
-    t.identifiers, 
-    t.asset_correct, 
-    t.moody_rating;
+    t."Client Name" = aggregated."Client Name";
