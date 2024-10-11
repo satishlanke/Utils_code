@@ -1,18 +1,16 @@
-SELECT 
-    t.*,
-    aggregated."Client Earnings",
-    aggregated."Net Earnings"
+hhSELECT 
+    t.*, 
+    grouped.total_client_earnings, 
+    grouped.total_net_earnings
 FROM 
-    perfora_df_1 t
+    your_table t
 JOIN 
     (SELECT 
-        "Client Name",
-        SUM("Client Earnings") AS "Client Earnings",
-        SUM("Net Earnings") AS "Net Earnings"
+        fund, 
+        SUM(client_earnings) AS total_client_earnings,
+        SUM(net_earnings) AS total_net_earnings
      FROM 
-        perfora_df_1
+        your_table
      GROUP BY 
-        "Client Name"
-    ) aggregated
-ON 
-    t."Client Name" = aggregated."Client Name";
+        fund) grouped
+ON t.fund = grouped.fund;
