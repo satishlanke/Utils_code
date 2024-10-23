@@ -1,26 +1,22 @@
-import pandas as pd
+from datetime import datetime
 
-# Sample DataFrame
-data = {
-    'fund': ['FundA', 'FundA', 'FundB', 'FundB', 'FundC'],
-    'client_earnings': [100, 150, 200, 250, 300],
-    'net_earnings': [90, 140, 180, 230, 270],
-    'borrower': ['John', 'Jane', 'Alice', 'Bob', 'Charlie']
-}
+def get_target_date():
+    # Get the current date and year
+    today = datetime.today()
+    current_year = today.year
+    
+    # Define April 30 and October 31 with the current year
+    april_30 = datetime(current_year, 4, 30)
+    october_31 = datetime(current_year, 10, 31)
+    
+    # Check the month and decide which date to pick
+    if today.month in [4, 5, 6]:  # Between April and June
+        return april_30
+    elif today.month in [10, 11, 12]:  # Between October and December
+        return october_31
+    else:
+        return today  # If not in the specified ranges, return today's date
 
-df = pd.DataFrame(data)
-
-# Step 1: Group by fund and sum the earnings
-grouped_df = df.groupby('fund').agg({
-    'client_earnings': 'sum',
-    'net_earnings': 'sum'
-}).reset_index()
-
-# Step 2: Concatenate all borrowers for each fund
-borrower_df = df.groupby('fund')['borrower'].apply(lambda x: ', '.join(x)).reset_index()
-
-# Step 3: Merge the borrower data back into the grouped DataFrame
-result_df = pd.merge(grouped_df, borrower_df, on='fund', how='left')
-
-# Display the result
-print(result_df)
+# Call the function and print the result
+target_date = get_target_date()
+print(f"The target date is: {target_date.strftime('%m/%d/%Y')}")
