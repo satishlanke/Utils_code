@@ -2,7 +2,9 @@ import xlwings as xw
 import pandas as pd
 
 # Sample DataFrame
-data = {'A': [1, 2, 3, 4], 'B': [5, 6, 7, 8], 'C': [9, 10, 11, 12]}
+data = {'A': ['short', 'this is longer text', 'medium', 'tiny'], 
+        'B': [5, 1234567890, 7, 8], 
+        'C': ['small', 'text with spaces', 'longer text', 'mid']}
 df = pd.DataFrame(data)
 
 # Start an Excel app instance
@@ -27,6 +29,9 @@ sheet.range(f'F{start_row}').value = df.values  # Write DataFrame without index
 
 # Optionally, write the column headers at row {start_row - 1}
 sheet.range(f'F{start_row - 1}').value = df.columns.tolist()
+
+# Autofit the columns where the DataFrame is written (starting from column F)
+sheet.range(f'F{start_row - 1}:H{start_row + len(df) - 1}').columns.autofit()  # Adjust columns F to H based on data
 
 # Save the workbook
 wb.save('output.xlsx')
