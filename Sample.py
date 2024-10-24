@@ -2,45 +2,31 @@ import xlwings as xw
 import pandas as pd
 
 # Sample DataFrame
-data = {'A': ['short', 'this is longer text', 'medium', 'tiny'], 
-        'B': [5, 1234567890, 7, 8], 
-        'C': ['small', 'text with spaces', 'longer text', 'mid']}
+data = {'Name': ['John', 'Jane', 'Doe'],
+        'Age': [30, 25, 22]}
 df = pd.DataFrame(data)
 
-# Start an Excel app instance
-wb = xw.Book()  # Open a new workbook
-sheet = wb.sheets['Sheet1']  # Select the active sheet
+# Create a new Excel workbook or open an existing one
+wb = xw.Book()  # Create a new workbook
 
-# Static sentences in the first few rows
-static_sentences = ["This is static sentence 1",
-                    "This is static sentence 2",
-                    "This is static sentence 3",
-                    "This is static sentence 4"]
+# Select a sheet (by default, it's 'Sheet1')
+sheet = wb.sheets['Sheet1']
 
-# Write all static sentences at once, starting from cell A1
-sheet.range('A1:A4').value = [[sentence] for sentence in static_sentences]
+# Write the DataFrame headers and values without the index
+sheet.range('A1').value = [df.columns.tolist()]  # Write headers
+sheet.range('A2').value = df.values  # Write values without index
 
-# Dynamically calculate the starting row based on static content
-start_row = len(static_sentences) + 1  # This will be 5 (after the static content)
+# Set font size to 9 for the entire DataFrame (headers + values)
+total_rows = len(df) + 1  # Total rows including header
+total_columns = len(df.columns)
+sheet.range(f'A1:{chr(ord("A") + total_columns - 1)}{total_rows}').api.Font.Size = 9
 
-# Write the DataFrame starting from F{start_row}, excluding the index
-sheet.range(f'F{start_row}').value = df.values  # Write DataFrame without index
+# Find the last column and make it bold
+last_col_letter = chr(ord('A') + len(df.columns) - 1)
+sheet.range(f'{last_col_letter}1:{last_col_letter}{total_rows}').api.Font.Bold = True
 
-# Optionally, write the column headers at row {start_row - 1}
-sheet.range(f'F{start_row - 1}').value = df.columns.tolist()
+# Save the workbook to a file
+wb.save('output_font_size_9.xlsx')
 
-# Autofit the columns where the DataFrame is written (starting from column F)
-sheet.range(f'F{start_row - 1}:H{start_row + len(df) - 1}').columns.autofit()  # Adjust columns F to H based on data
-
-# Set Arial font for the entire sheet
-sheet.cells.api.Font.Name = 'Arial'
-
-# Example: Insert data into a specific cell (row number 10, column 'C') and make it bold
-row_number = 10
-cell_value = "This is bold text"
-sheet.range(f'C{row_number}').value = cell_value  # Insert data
-sheet.range(f'C{row_number}').api.Font.Bold = True  # Make the font bold
-
-# Save the workbook
-wb.save('output.xlsx')
+# Optionally, close the workbook
 wb.close()
