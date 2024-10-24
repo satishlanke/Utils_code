@@ -1,22 +1,27 @@
-from datetime import datetime
+import xlwings as xw
+import pandas as pd
 
-def get_target_date():
-    # Get the current date and year
-    today = datetime.today()
-    current_year = today.year
-    
-    # Define April 30 and October 31 with the current year
-    april_30 = datetime(current_year, 4, 30)
-    october_31 = datetime(current_year, 10, 31)
-    
-    # Check the month and decide which date to pick
-    if today.month in [4, 5, 6]:  # Between April and June
-        return april_30
-    elif today.month in [10, 11, 12]:  # Between October and December
-        return october_31
-    else:
-        return today  # If not in the specified ranges, return today's date
+# Sample DataFrame
+data = {'A': [1, 2, 3], 'B': [4, 5, 6], 'C': [7, 8, 9]}
+df = pd.DataFrame(data)
 
-# Call the function and print the result
-target_date = get_target_date()
-print(f"The target date is: {target_date.strftime('%m/%d/%Y')}")
+# Start an Excel app instance
+wb = xw.Book()  # Open a new workbook
+sheet = wb.sheets['Sheet1']  # Select the active sheet
+
+# Static sentences in the first four rows
+static_sentences = ["This is static sentence 1",
+                    "This is static sentence 2",
+                    "This is static sentence 3",
+                    "This is static sentence 4"]
+
+# Write static sentences in the first column (A) from row 1 to 4
+for idx, sentence in enumerate(static_sentences, start=1):
+    sheet.range(f'A{idx}').value = sentence
+
+# Write the DataFrame starting from F5
+sheet.range('F5').value = df
+
+# Save the workbook
+wb.save('output.xlsx')
+wb.close()
