@@ -21,12 +21,12 @@ total_rows = len(df) + 1  # Total rows including header
 total_columns = len(df.columns)
 sheet.range(f'A1:{chr(ord("A") + total_columns - 1)}{total_rows}').api.Font.Size = 9
 
-# Find the last column and make it bold
+# Find the last column and apply bold formatting only to the data (exclude header)
 last_col_letter = chr(ord('A') + len(df.columns) - 1)
-sheet.range(f'{last_col_letter}1:{last_col_letter}{total_rows}').api.Font.Bold = True
+sheet.range(f'{last_col_letter}2:{last_col_letter}{total_rows}').api.Font.Bold = True  # Start from row 2 (skip header)
 
 # Save the workbook to a file
-wb.save('output_font_size_9.xlsx')
+wb.save('output_no_bold_header.xlsx')
 
 # Optionally, close the workbook
 wb.close()
