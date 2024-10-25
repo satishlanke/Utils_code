@@ -1,95 +1,74 @@
-import java.util.*;
+import os
+from tkinter import Tk, Frame, Label, Entry, Button, messagebox, filedialog
+from tkinter import ttk
 
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
+class FilePicker:
+    def __init__(self):
+        self.FileBrowsCount = 3
+        self.file_labels = ["Loan Position Detail", "OEIC Earnings Repo Income", "OEICS Non Cash Collateral"]
+        self.dropdown_values = ["Option 1", "Option 2", "Option 3"]
+        
+        self.UF = Tk()
+        self.UF.title("File Picker")
+        self.UF.geometry("700x400")
+        
+        # Entry frame setup
+        Entry_frame = Frame(self.UF)
+        Entry_frame.pack(side='top', fill='x')
+        
+        # Dictionary to store file paths
+        self.fileListDict = {}
+        
+        # Labels, entry boxes, and browse buttons
+        self.ref = []
+        for i, label_text in enumerate(self.file_labels):
+            lblFile = Label(Entry_frame, text=label_text)
+            lblFile.grid(row=i, column=0, sticky='W', padx=10)
+            
+            txtFile = Entry(Entry_frame, state='disabled', width=50)
+            txtFile.grid(row=i, column=1, padx=10, pady=5)
+            self.ref.append(txtFile)
+            
+            btnBrowse = Button(Entry_frame, text="Browse", command=lambda idx=i: self.BrowseFile(idx))
+            btnBrowse.grid(row=i, column=2, padx=5)
+        
+        # Dropdown for additional selection
+        self.dropdown = ttk.Combobox(Entry_frame, values=self.dropdown_values)
+        self.dropdown.set("Select an option")
+        self.dropdown.grid(row=len(self.file_labels), column=1, padx=10, pady=10)
+        
+        # Submit Button
+        btnSubmit = Button(Entry_frame, text="Submit", command=self.SubmitBtn)
+        btnSubmit.grid(row=len(self.file_labels) + 1, column=1, sticky='W', padx=5, pady=10)
 
-    TreeNode(int x) {
-        val = x;
-    }
-}
+    def BrowseFile(self, indx):
+        filename = filedialog.askopenfilename(initialdir=os.environ['USERPROFILE'] + "/Downloads")
+        if filename:
+            self.fileListDict[indx] = filename
+            self.ref[indx].config(state='normal')
+            self.ref[indx].delete(0, "end")
+            self.ref[indx].insert(0, filename)
+            self.ref[indx].config(state='disabled')
 
-public class BinaryTreeWidth {
-    public int widthOfBinaryTree(TreeNode root) {
-        if (root == null) return 0;
+    def SubmitBtn(self):
+        selected_value = self.dropdown.get()
+        if selected_value == "Select an option":
+            messagebox.showwarning('Warning', 'Please select an option from the dropdown')
+            return
 
-        int maxWidth = 0;
-        Queue<Pair> queue = new LinkedList<>();
-        queue.offer(new Pair(root, 0)); // Initialize queue with root node and position 0
+        all_files_selected = all(self.fileListDict.get(i) for i in range(self.FileBrowsCount))
+        if not all_files_selected:
+            messagebox.showwarning('Warning', 'Please select all files')
+            return
+        
+        # Process the collected data, including dropdown selection
+        # (Replace with actual data processing function)
+        print("Selected files:", self.fileListDict)
+        print("Dropdown selection:", selected_value)
+        
+        messagebox.showinfo('Information', 'Your data has been processed successfully.')
+        self.UF.destroy()
 
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            int minPosition = queue.peek().position; // Position of the leftmost node in the level
-            int first = 0, last = 0;
-
-            for (int i = 0; i < size; i++) {
-                Pair current = queue.poll();
-                TreeNode node = current.node;
-                int pos = current.position - minPosition; // Normalize position to avoid overflow
-
-                if (i == 0) first = pos; // Position of the first node in the level
-                if (i == size - 1) last = pos; // Position of the last node in the level
-
-                if (node.left != null) queue.offer(new Pair(node.left, 2 * pos));
-                if (node.right != null) queue.offer(new Pair(node.right, 2 * pos + 1));
-            }
-            maxWidth = Math.max(maxWidth, last - first + 1);
-        }
-
-        return maxWidth;
-    }
-
-    private class Pair {
-        TreeNode node;
-        int position;
-
-        Pair(TreeNode node, int position) {
-            this.node = node;
-            this.position = position;
-        }
-    }
-
-    // Helper function to build tree from input list
-    public static TreeNode buildTree(List<String> values) {
-        if (values.isEmpty() || values.get(0).equals("null")) return null;
-
-        TreeNode root = new TreeNode(Integer.parseInt(values.get(0)));
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        int i = 1;
-
-        while (i < values.size()) {
-            TreeNode current = queue.poll();
-            if (current != null) {
-                if (i < values.size() && !values.get(i).equals("null")) {
-                    current.left = new TreeNode(Integer.parseInt(values.get(i)));
-                    queue.offer(current.left);
-                }
-                i++;
-
-                if (i < values.size() && !values.get(i).equals("null")) {
-                    current.right = new TreeNode(Integer.parseInt(values.get(i)));
-                    queue.offer(current.right);
-                }
-                i++;
-            }
-        }
-
-        return root;
-    }
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        BinaryTreeWidth treeWidth = new BinaryTreeWidth();
-
-        System.out.println("Enter tree nodes in level order (use 'null' for missing nodes), separated by commas:");
-        String input = scanner.nextLine();
-        List<String> values = Arrays.asList(input.split(","));
-
-        TreeNode root = buildTree(values);
-
-        int maxWidth = treeWidth.widthOfBinaryTree(root);
-        System.out.println("Maximum width: " + maxWidth);
-    }
-}
+# Initialize and run the FilePicker
+app = FilePicker()
+app.UF.mainloop()
