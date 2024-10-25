@@ -1,32 +1,43 @@
-import xlwings as xw
-import pandas as pd
+import java.util.Arrays;
+import java.util.Scanner;
 
-# Sample DataFrame
-data = {'Name': ['John', 'Jane', 'Doe'],
-        'Age': [30, 25, 22]}
-df = pd.DataFrame(data)
+public class CoinChange {
+    public static int coinChange(int[] coins, int amount) {
+        // Initialize an array to store the minimum number of coins for each amount
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1); // Fill with a large number as an initial value
+        dp[0] = 0; // Base case: 0 amount requires 0 coins
 
-# Create a new Excel workbook or open an existing one
-wb = xw.Book()  # Create a new workbook
+        // Iterate through all amounts from 1 to the target amount
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                if (coin <= i) {
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1); // Choose the coin and update the dp array
+                }
+            }
+        }
 
-# Select a sheet (by default, it's 'Sheet1')
-sheet = wb.sheets['Sheet1']
+        // If dp[amount] is still the large number, return -1 (not possible)
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
 
-# Write the DataFrame headers and values without the index
-sheet.range('A1').value = [df.columns.tolist()]  # Write headers
-sheet.range('A2').value = df.values  # Write values without index
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-# Set font size to 9 for the entire DataFrame (headers + values)
-total_rows = len(df) + 1  # Total rows including header
-total_columns = len(df.columns)
-sheet.range(f'A1:{chr(ord("A") + total_columns - 1)}{total_rows}').api.Font.Size = 9
+        // Input the denominations of coins
+        System.out.println("Enter the denominations of coins separated by spaces:");
+        String[] coinInput = sc.nextLine().split(" ");
+        int[] coins = new int[coinInput.length];
+        for (int i = 0; i < coinInput.length; i++) {
+            coins[i] = Integer.parseInt(coinInput[i]);
+        }
 
-# Find the last column and apply bold formatting only to the data (exclude header)
-last_col_letter = chr(ord('A') + len(df.columns) - 1)
-sheet.range(f'{last_col_letter}2:{last_col_letter}{total_rows}').api.Font.Bold = True  # Start from row 2 (skip header)
+        // Input the amount to be formed
+        System.out.println("Enter the amount:");
+        int amount = sc.nextInt();
 
-# Save the workbook to a file
-wb.save('output_no_bold_header.xlsx')
-
-# Optionally, close the workbook
-wb.close()
+        // Get the result and print it
+        int result = coinChange(coins, amount);
+        System.out.println("The fewest number of coins needed: " + result);
+    }
+}
