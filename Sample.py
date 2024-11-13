@@ -1,6 +1,7 @@
-To ensure the automation works properly, the data in the Excel sheet named "Loan Position Detail" must be located on a sheet named "R Port Page," and the data table should start from the 6th row. If these conditions are not met, the automation will not function correctly.
+I am reaching out to inquire about the portability of my medical insurance as I will be leaving the organization on November 22.
 
+Could you please provide details regarding the process for transferring my existing medical insurance? Additionally, I would like to know if there are any charges or fees associated with this process.
 
+Please let me know if there are any steps I need to complete or documentation required on my end to facilitate a smooth transition.
 
-We are going to use four Excel sheets—Loan Position Detail, Non-Cash Collateral, Income Repo, and Performance. Before uploading the data into the tool, please ensure it meets the specified criteria.
-
+Thank you for your assistance.
