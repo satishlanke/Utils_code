@@ -1,7 +1,15 @@
-I am reaching out to inquire about the portability of my medical insurance as I will be leaving the organization on November 22.
+import json
 
-Could you please provide details regarding the process for transferring my existing medical insurance? Additionally, I would like to know if there are any charges or fees associated with this process.
+# Sample data to save
+data = {"name": "Alice", "age": 30, "city": "New York"}
 
-Please let me know if there are any steps I need to complete or documentation required on my end to facilitate a smooth transition.
+# Save data to a file with a custom extension
+with open("data.customjson", "w") as file:
+    json.dump(data, file)
 
-Thank you for your assistance.
+print("Data has been saved to data.customjson")
+
+with open("data.customjson", "r") as file:
+    loaded_data = json.load(file)
+
+print("Loaded data:", loaded_data)
