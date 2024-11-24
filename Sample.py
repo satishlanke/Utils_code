@@ -24,7 +24,7 @@ def solve(n, k, treasures):
             start += 1
         
         # Update max_sum and best_start if this window is better
-        if current_sum > max_sum or (current_sum == max_sum and sorted_ids[start] > best_start):
+        if current_sum > max_sum or (current_sum == max_sum and sorted_ids[start] < best_start):
             max_sum = current_sum
             best_start = sorted_ids[start]
     
