@@ -54,3 +54,4 @@ target = int(input())  # Target flavor
 # Solve and print the result
 out = solve(n, spices, target)
 print(out)
+g
