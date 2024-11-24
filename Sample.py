@@ -1,57 +1,32 @@
-from itertools import combinations
-from bisect import bisect_left
+def solve(n, k, treasures):
+    # Create an array to store treasure values, initialize with 1 for all ids
+    max_id = max(t[0] for t in treasures)  # Maximum id in the input
+    treasure_values = [1] * (max_id + 1)  # Initialize all treasure ids with value 1
+    
+    # Update treasure values for the given ids
+    for treasure_id, value in treasures:
+        treasure_values[treasure_id] = value
 
-def solve(n, spices, target):
-    # Helper function to generate all subset sums
-    def get_subset_sums(arr):
-        subset_sums = []
-        for i in range(len(arr) + 1):
-            for subset in combinations(arr, i):
-                subset_sums.append(sum(subset))
-        return subset_sums
+    # Sliding window to find the maximum sum and the starting index
+    current_sum = sum(treasure_values[:k])  # Initial window sum
+    max_sum = current_sum
+    best_start = 0
     
-    # Split spices into two halves
-    left, right = spices[:n // 2], spices[n // 2:]
-    
-    # Generate subset sums for each half
-    left_sums = get_subset_sums(left)
-    right_sums = get_subset_sums(right)
-    
-    # Sort right_sums for binary search
-    right_sums.sort()
-    
-    # Find the closest sum to the target
-    closest_sum = float('inf')
-    closest_diff = float('inf')
-    
-    for sum_left in left_sums:
-        # Complement needed from right_sums
-        complement = target - sum_left
-        
-        # Binary search for the closest complement in right_sums
-        idx = bisect_left(right_sums, complement)
-        
-        # Check the current and previous elements (if any) for closest match
-        for i in [idx - 1, idx]:
-            if 0 <= i < len(right_sums):
-                total_sum = sum_left + right_sums[i]
-                diff = abs(total_sum - target)
-                
-                # Update closest if:
-                # 1. Difference is smaller
-                # 2. Difference is the same but the sum is smaller numerically
-                if diff < closest_diff or (diff == closest_diff and total_sum < closest_sum):
-                    closest_diff = diff
-                    closest_sum = total_sum
-    
-    return closest_sum
+    # Slide the window
+    for i in range(1, max_id - k + 2):  # Ensure the window fits
+        current_sum = current_sum - treasure_values[i - 1] + treasure_values[i + k - 1]
+        if current_sum > max_sum or (current_sum == max_sum and i < best_start):
+            max_sum = current_sum
+            best_start = i
+
+    # Return the result
+    return [max_sum, best_start]
 
 # Input handling
-n = int(input())  # Number of spices
-spices = list(map(int, input().split()))  # List of spice strengths
-target = int(input())  # Target flavor
+n = int(input())  # Number of unique treasures
+k = int(input())  # Length of the interval
+treasures = [list(map(int, input().split())) for _ in range(n)]  # Treasure ids and values
 
 # Solve and print the result
-out = solve(n, spices, target)
-print(out)
-g
+result = solve(n, k, treasures)
+print(result)
